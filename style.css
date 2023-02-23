@@ -21,16 +21,15 @@ html {
 }
 
 button {
-    min-height: 45px;
     flex-grow: 1;
-    margin: 10px;
+    min-height: 45px;
     padding: 10px;
     border: 1px solid #666;
     border-radius: 5px;
     text-align: center;
     background: #ccc;
-    color: #000;
     transition: background-color 0.5s, box-shadow 0.5s;
+    color: #000;
 }
 button:focus {
     background: #ace;
@@ -43,13 +42,12 @@ select,
 input {
     flex-grow: 1;
     padding: 10px;
-    margin: 10px;
     border: 1px solid #666;
     border-radius: 5px;
     text-align: center;
     background: #fff;
-    color: #000;
     transition: background-color 0.5s;
+    color: #000;
 }
 input:focus {
     background: #ace;
@@ -107,16 +105,19 @@ input:focus::placeholder {
     justify-content: center;
     align-items: center;
     width: 100%;
+    max-width: 95vw;
     }
     .players_form {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         width: 100%;
-        padding: 10px;
+        max-width: 95vw;
+        padding: 20px;
+        gap: 10px;
     }
     @media (max-width: 1000px) {
         .players_form {
-            grid-template-columns: auto;
+            grid-template-columns: 100%;
         }
     }
     .players_buttons {
@@ -272,7 +273,7 @@ input:focus::placeholder {
     }
     .edit_info {
         width: 70px;
-        min-height: 50px;
+        height: 70px;
         display: flex;
         flex-direction: column;
         text-align: left;
@@ -280,7 +281,7 @@ input:focus::placeholder {
     }
     .edit_item {
         width: 25px;
-        height: 50px;
+        height: 70px;
         display: flex;
         flex-direction: column;
         text-align: center;
