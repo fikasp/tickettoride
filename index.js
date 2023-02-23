@@ -127,17 +127,23 @@ const EditTickets = ({ tickets, setTickets, visibility, color }) => {
   const [newTicket, setNewTicket] = React.useState("")
 
   const handleKeyDown = (e) => {
-    console.log(e.key);
     if(e.key =="-") {
+      e.preventDefault()
       handleAddTicket("-")
     } 
     else if(e.key =="+" || e.key =="Enter") {
+      e.preventDefault()
       handleAddTicket("+")
     } 
     else if (e.key == "Escape") {
       handleClose()
     }
   }
+  const handleOnChange = (e) => {
+    if(e.key !="-" || e.key !="+") {
+    setNewTicket(e.target.value)
+  }}
+
   const handleAddTicket = (sign) => {
     if(newTicket < 1 || newTicket > 25) {
       setModalVisibility(true)
@@ -148,7 +154,6 @@ const EditTickets = ({ tickets, setTickets, visibility, color }) => {
       ref.current.focus();
     }
   }
-
   const handleRemoveTicket = (id) => () => {
     setTicketList(ticketList.filter((ticket,index) => index != id))
   }
@@ -166,7 +171,7 @@ const EditTickets = ({ tickets, setTickets, visibility, color }) => {
         <Modal info={modalInfo} visibility={setModalVisibility} /> 
       }
       <div 
-        className="edit_content"
+        className="edit_content edit_content-tickets"
         onKeyDown={handleKeyDown}
         style={{boxShadow: `0px 0px 20px ${color}`}}>
 
@@ -202,12 +207,12 @@ const EditTickets = ({ tickets, setTickets, visibility, color }) => {
             max="25" 
             placeholder="1 ... 25"
             value={newTicket} 
-            onChange={e => setNewTicket(e.target.value)}
+            onChange={handleOnChange}
             onKeyDown={handleKeyDown}
           />
           <div className="tickets_buttons">
-            <button className="tickets_button" onClick={() => handleAddTicket("+")}>Dodaj bilet ukończony</button>
-            <button className="tickets_button" onClick={() => handleAddTicket("-")}>Dodaj bilet nieukończony</button>
+            <button className="tickets_button tickets_button-done" onClick={() => handleAddTicket("+")}>Dodaj bilet ukończony</button>
+            <button className="tickets_button tickets_button-failed" onClick={() => handleAddTicket("-")}>Dodaj bilet nieukończony</button>
           </div>
         </div>
 
@@ -245,7 +250,7 @@ const EditBonus = ({ others, setOthers, visibility, color }) => {
     <div className="edit">
       <div 
         onKeyDown={handleKeyDown}
-        className="edit_content edit_content-others"
+        className="edit_content edit_content-bonus"
         style={{boxShadow: `0px 0px 20px ${color}`}}>
 
         <div className="edit_title">Lista bonusów</div>
@@ -350,10 +355,8 @@ const PlayerBox = ( {name, color, remove, edit} ) => {
         color={color}
       /> 
     }
-    <div className="player_icons">
-      <div onClick={remove}><i className="fa fa-trash" /></div>
-      <div onClick={edit}><i className="fa fa-edit" /></div> 
-    </div>
+    <div className="player_remove" onClick={remove}><i className="fa fa-trash" /></div>
+    <div className="player_edit" onClick={edit}><i className="fa fa-edit" /></div> 
     <div className="player_name">{name}</div>
 
     <div className="player_row">
@@ -381,9 +384,16 @@ const PlayerBox = ( {name, color, remove, edit} ) => {
 
 // PlayerForm
 const PlayerForm = ({ mode, player, setPlayer, onClick}) => {
-  
+  React.useEffect(() => {
+    ref.current.focus();
+  }, [player]);
+
+  const ref = React.useRef(null);
+
   const handleEnter = (e) => {
-    if(e.key =="Enter") onClick()
+    if(e.key =="Enter") {
+      onClick()
+    }
   }
   return (
     <>
@@ -399,6 +409,7 @@ const PlayerForm = ({ mode, player, setPlayer, onClick}) => {
       </select>
 
       <input 
+        ref={ref} 
         type="text" 
         placeholder="Wpisz imię gracza"
         value={player.name} 
@@ -444,6 +455,10 @@ const App = () => {
 
   const handleEditPlayer = (id) => () => {
     const player = players.find(player => player.id == id)
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
     setEditingPlayer(player)
   }
 
