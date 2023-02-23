@@ -21,24 +21,21 @@ html {
 }
 
 button {
-    min-height: 45px;
-    flex-grow: 1;
-    min-height: 45px;
-    min-width: 45px;
+    /* flex-grow: 1; */
     padding: 10px;
     border: 1px solid #666;
     border-radius: 5px;
     text-align: center;
-    background: #ccc;
     transition: background-color 0.5s, box-shadow 0.5s;
+    background: #ccc;
     color: #000;
-}
-button:focus {
-    background: #ace;
-}
-button:hover {
-    background: #ace;
-}
+    }
+    button:focus {
+        background: #ace;
+    }
+    button:hover {
+        background: #ace;
+    }
 
 select,
 input {
@@ -50,16 +47,16 @@ input {
     background: #fff;
     transition: background-color 0.5s;
     color: #000;
-}
-input:focus {
-    background: #ace;
-}
-input::placeholder {
-    color: #888;
-}
-input:focus::placeholder {
-    visibility: hidden;
-}
+    }
+    input:focus {
+        background: #ace;
+    }
+    input::placeholder {
+        color: #888;
+    }
+    input:focus::placeholder {
+        visibility: hidden;
+    }
 
 /* Font awesome */
 .fa {
@@ -68,7 +65,6 @@ input:focus::placeholder {
 .fa:hover {
     color: #aaa;
 }
-
 
 /* Container */
 .container {
@@ -81,6 +77,8 @@ input:focus::placeholder {
     padding: 10px;
     }
     .container_app {
+        display: flex;
+        flex-direction: column;
         background: #222;
         border-radius: 10px;
         box-shadow: 0 0 30px #222;
@@ -100,61 +98,55 @@ input:focus::placeholder {
     justify-content: center;
     align-items: center;
     font-weight: bold;
-    background: #246;
+    padding: 15px;
     border-radius: 10px 10px 0px 0px;
+    background: #246;
     text-align: center;
     font-size: 28px;
-    padding: 15px;
-    }
+}
 
-/* Players */
-.players {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    /* width: 100%; */
-    }
-    .players_form {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(190px,1fr));
-        width: 100%;
-        padding: 20px;
-        gap: 20px;
+/* Form */
+.form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px,1fr));
+    padding: 20px;
+    gap: 20px;
     }
     @media (max-width: 690px) {
-        .players_form {
+        .form {
             grid-template-columns: 100%;
         }
     }
-    .players_buttons {
+    .form_buttons {
         display: flex;
     }
-    .players_list {
-        padding: 0 20px 20px;
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(190px,1fr));
-        justify-content: center;
-        gap: 20px;
-        width: 100%;
+    .form_button {
+        flex-grow: 1;
+        min-height: 45px;
     }
+
+/* Main */
+.main {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px,1fr));
+    padding: 0 20px 20px;
+    gap: 20px;
+}
 
 /* Player */
 .player {
-    padding: 30px 20px;
-    border-radius: 5px;
-    text-align: center;
-    min-width: 190px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap:30px
+    gap: 30px;
+    padding: 30px;
+    border-radius: 5px;
+    min-width: 190px;
     }
     .player_icons {
         display: flex;
-        justify-content: center;
-        width: 100%;
+        justify-content: center;     
         gap: 20px;
     }
     .player_name {
@@ -162,47 +154,48 @@ input:focus::placeholder {
     }
     .player_row {
         display: grid;
-        grid-template-columns: 60px 60px 30px;
-        text-align: left;
-    }
-    .player_score {
-        text-align: right;
-        padding-right: 20px;
-    }
-    .player_edit {
-        text-align: center;
-    }
+        grid-template-columns: 60px 50px 40px;
+        }
+        .player_row-info {
+            text-align: left;
+        }
+        .player_row-score {
+            text-align: right;
+        }
+        .player_row-edit {
+            text-align: right;
+        }
     .player_sum {
         font-weight: bold;
     }
 
 /* Modal */
 .modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.8);
     position: fixed;
-    top: 0;
-    left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.8);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    top: 0;
+    left: 0;
     }
     .modal_content {
-        position: relative;
         display: flex;
         justify-content: center;
         align-items: center;
+        position: relative;
+        min-height: 150px;
+        min-width: 300px;
+        max-width: 60vw;
+        padding: 20px;
         line-height: 1.5rem;
         background-color: rgba(15, 15, 15, 0.9);
         backdrop-filter: blur(5px);
-        padding: 20px;
         border-radius: 10px;
         box-shadow: 0px 0px 30px #246;
         text-align: center;
-        min-width: 300px;
-        max-width: 60vw;
-        min-height: 150px;
     }
     .modal_close {
         position: absolute;
@@ -213,30 +206,30 @@ input:focus::placeholder {
    
 /* Edit */
 .edit {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.8);
     display: flex;
     align-items: center;
     justify-content: center;
+    background-color: rgba(0, 0, 0, 0.8);
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
     }
     .edit_content {
-        gap: 10px;
-        position: relative;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
         align-items: center;
         background-color: rgba(15, 15, 15, 0.8);
         backdrop-filter: blur(5px);
-        padding: 20px;
         border-radius: 10px;
         text-align: center;
-        min-width: 300px;
+        position: relative;
+        padding: 20px;
+        gap: 10px;
         min-height: 210px;
+        min-width: 300px;
         width: 40%;
         } 
         .edit_content-others {
@@ -244,21 +237,12 @@ input:focus::placeholder {
         }
         @media (max-width: 690px) {
             .edit_content-trains {
-                min-height: 420px;
+                min-height: 400px;
             }
         }
-    .edit_buttons {
-        margin-top: 10px;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-    .edit_button {
-        width: 40px;
-        margin: 5px;
-        padding: 10px 15px;
-        flex-grow: 0;
-        flex-shrink: 0;
+    .edit_title {
+        margin-bottom: 20px;
+        font-weight: bold;
     }
     .edit_close {
         position: absolute;
@@ -275,53 +259,83 @@ input:focus::placeholder {
         .edit_reset i {
             margin-right: 10px
         }
-    .edit_title {
-        margin-bottom: 20px;
-        font-weight: bold;
+
+/* Trains */
+.trains {
+    display: flex;
+    justify-content: center;
+    align-content: start;
+    flex-wrap: wrap;
+    flex-grow: 1;
+    gap: 18px;
     }
-    .edit_list {
-        display: flex;
-        justify-content: center;
-        align-content: start;
-        flex-wrap: wrap;
-        flex-grow: 1;
-        height: 100%;
-        gap: 18px;
-    }
-    .edit_item {
-        width: 25px;
-        height: 50px;
+    .trains_item {
         display: flex;
         flex-direction: column;
-        text-align: center;
+        width: 25px;
+        height: 50px;
         gap: 10px;
     }
-    .edit_adds {
+    .trains_buttons {
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
-    }
-    .edit_add {
-        margin: 5px;
-        width: 150px;
-    }
-    .edit_red {
-        color: red;
-    }
-    .edit_others {
-        display: grid;
-        grid-template-columns: 190px 50px;
-        grid-template-rows: repeat(3, 50px);
-        justify-content: start;
         align-items: center;
-        text-align: left;
-        gap: 20px;
     }
-    .edit_select {
+    .trains_button {
         width: 50px;
+        height: 45px;
+        margin: 5px;
+    }
+
+/* Tickets */
+.tickets {
+    display: flex;
+    justify-content: center;
+    align-content: start;
+    flex-wrap: wrap;
+    flex-grow: 1;
+    gap: 18px;
+    }
+    .tickets_item {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        height: 50px;
+        width: 25px;
+        }
+        .tickets_item-red {
+            color: red;
+        }
+    .tickets_group {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .tickets_buttons {
+        display: flex;
+        flex-grow: 1;
+    }
+    .tickets_button {
+        margin: 5px;
+        width: 130px;
+        flex-grow: 1;
+    }
+
+/* Others */
+.bonus {
+    display: grid;
+    grid-template-columns: 190px 50px;
+    grid-template-rows: repeat(3, 50px);
+    justify-content: start;
+    align-items: center;
+    text-align: left;
+    gap: 20px;
+    }
+    .bonus_select {
         padding: 5px;
     }
-    .edit_checkbox {
+    .bonus_checkbox {
         transform: scale(2);
-        width: 50px;
     }
+
+

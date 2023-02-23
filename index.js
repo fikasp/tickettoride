@@ -41,7 +41,7 @@ const Modal = ({ info, visibility }) => {
     </div>
 )}
 
-// Edit Trains
+// EditTrains
 const EditTrains = ({ trains, setTrains, visibility, color }) => {
   React.useEffect(() => {
     ref.current.focus();
@@ -82,38 +82,39 @@ const EditTrains = ({ trains, setTrains, visibility, color }) => {
         style={{boxShadow: `0px 0px 20px ${color}`}}>
           
         <div className="edit_title">Lista pociągów</div>
-        <div className="edit_list">
 
+        <div className="edit_close" onClick={handleClose}>
+          <i className="fa fa-check"/>
+        </div>
+
+        <div className="edit_reset" onClick={handleReset}>
+          <i className="fa fa-trash"/>
+          {trainList.length !=0 ? trainList.reduce((train, sum) => train + sum): 0}
+        </div>
+
+        <div className="trains">
           {trainList.map((train, index) => (
-            <div key={index} className="edit_item">
+            <div key={index} className="trains_item">
               <div>{train}</div>
               <div onClick={handleRemoveTrain(index)}>
                 <i className="fa fa-trash" />
               </div>
             </div>
           ))}   
-
         </div>
 
-        <div className="edit_buttons">
+        <div className="trains_buttons">
           {keys.map(key => (
-            <button className="edit_button" key={key} onClick={handleAddTrain}>{key}</button>
+            <button className="trains_button" key={key} onClick={handleAddTrain}>{key}</button>
           ))}
         </div>
 
-        <div className="edit_close" onClick={handleClose}>
-          <i className="fa fa-check"/>
-        </div>
-        <div className="edit_reset" onClick={handleReset}>
-          <i className="fa fa-trash"/>
-          {trainList.length !=0 ? trainList.reduce((train, sum) => train + sum): 0}
-        </div>
       </div>
   </div>
   )
 }
 
-// Edit Tickets
+// EditTickets
 const EditTickets = ({ tickets, setTickets, visibility, color }) => {
   React.useEffect(() => {
     ref.current.focus();
@@ -170,50 +171,53 @@ const EditTickets = ({ tickets, setTickets, visibility, color }) => {
         style={{boxShadow: `0px 0px 20px ${color}`}}>
 
         <div className="edit_title">Lista biletów</div>
-        <div className="edit_list">
 
+        <div className="edit_close" onClick={handleClose}>
+          <i className="fa fa-check"/>
+        </div>
+
+        <div className="edit_reset" onClick={handleReset}>
+          <i className="fa fa-trash"/>
+          {ticketList.length !=0 ? ticketList.length: 0}
+        </div>
+
+        <div className="tickets">
           {ticketList.map((ticket, index) => (
-            <div key={index} className={`edit_item${ticket > 0 ? "" : " edit_red"}`}>
+            <div key={index} className={`tickets_item${ticket > 0 ? "" : " tickets_item-red"}`}>
               <div>{ticket}</div>
               <div onClick={handleRemoveTicket(index)}>
                 <i className="fa fa-trash" />
               </div>
             </div>
           ))}       
-
         </div>
 
-        <div className="edit_adds">
-          <button className="edit_add" onClick={() => handleAddTicket("+")}>Dodaj bilet zrealizowany</button>
-          <input 
+        <div className="tickets_group">
+          <input
             ref={ref} 
             tabIndex={0} 
-            className="edit_add"
+            className="tickets_button"
             type="number"
             min="1"
             max="25" 
-            placeholder="Wpisz liczbę"
+            placeholder="1 ... 25"
             value={newTicket} 
             onChange={e => setNewTicket(e.target.value)}
             onKeyDown={handleKeyDown}
           />
-          <button className="edit_add" onClick={() => handleAddTicket("-")}>Dodaj bilet niezrealizowany</button>
+          <div className="tickets_buttons">
+            <button className="tickets_button" onClick={() => handleAddTicket("+")}>Dodaj bilet ukończony</button>
+            <button className="tickets_button" onClick={() => handleAddTicket("-")}>Dodaj bilet nieukończony</button>
+          </div>
         </div>
 
-        <div className="edit_close" onClick={handleClose}>
-          <i className="fa fa-check"/>
-        </div>
-        <div className="edit_reset" onClick={handleReset}>
-          <i className="fa fa-trash"/>
-          {ticketList.length !=0 ? ticketList.length: 0}
-        </div>
       </div>
   </div>
   )
 }
 
-// Edit Others
-const EditOthers = ({ others, setOthers, visibility, color }) => {
+// EditBonus
+const EditBonus = ({ others, setOthers, visibility, color }) => {
   React.useEffect(() => {
     ref.current.focus();
   }, []);
@@ -240,18 +244,22 @@ const EditOthers = ({ others, setOthers, visibility, color }) => {
   return (
     <div className="edit">
       <div 
-        className="edit_content edit_content-others"
         onKeyDown={handleKeyDown}
+        className="edit_content edit_content-others"
         style={{boxShadow: `0px 0px 20px ${color}`}}>
 
         <div className="edit_title">Lista bonusów</div>
-        <div className="edit_others">
+        <div className="edit_close" onClick={handleClose}>
+          <i className="fa fa-check"/>
+        </div>
+
+        <div className="bonus">
 
           <label htmlFor="stations">Niewykorzystane stacje:</label>
           <select 
             ref={ref} 
             id="stations"
-            className="edit_select" 
+            className="bonus_select" 
             value={stations}
             onChange={e => setStations(e.target.value)}>
             <option value="0">0</option>
@@ -264,7 +272,7 @@ const EditOthers = ({ others, setOthers, visibility, color }) => {
           <input 
             id="road" 
             type="checkbox" 
-            className="edit_checkbox" 
+            className="bonus_checkbox" 
             checked={road} 
             onChange={e => setRoad(e.target.checked)}
           />
@@ -273,15 +281,11 @@ const EditOthers = ({ others, setOthers, visibility, color }) => {
           <input 
             id="glob" 
             type="checkbox" 
-            className="edit_checkbox" 
+            className="bonus_checkbox" 
             checked={globetrotter} 
             onChange={e => setGlobetrotter(e.target.checked)}
           />
 
-        </div>
-
-        <div className="edit_close" onClick={handleClose}>
-          <i className="fa fa-check"/>
         </div>
       </div>
   </div>
@@ -339,7 +343,7 @@ const PlayerBox = ( {name, color, remove, edit} ) => {
       /> 
     }
     { editOthers && 
-      <EditOthers 
+      <EditBonus 
         others={others} 
         setOthers={setOthers} 
         visibility={setEditOthers} 
@@ -353,40 +357,36 @@ const PlayerBox = ( {name, color, remove, edit} ) => {
     <div className="player_name">{name}</div>
 
     <div className="player_row">
-      <div>Pociągi:</div>
-      <div className="player_score">{trainsScore}</div>
-      <div className="player_edit" onClick={() => setEditTrains(true)}><i className="fa fa-edit" /></div>
+      <div className="player_row-info">Pociągi:</div>
+      <div className="player_row-score">{trainsScore}</div>
+      <div className="player_row-edit" onClick={() => setEditTrains(true)}><i className="fa fa-edit" /></div>
     </div>
     <div className="player_row">
-      <div>Bilety:</div>
-      <div className="player_score">{ticketsScore}</div>
-      <div className="player_edit" onClick={() => setEditTickets(true)}><i className="fa fa-edit" /></div>
+      <div className="player_row-info">Bilety:</div>
+      <div className="player_row-score">{ticketsScore}</div>
+      <div className="player_row-edit" onClick={() => setEditTickets(true)}><i className="fa fa-edit" /></div>
     </div>
     <div className="player_row">
-      <div>Bonusy:</div>
-      <div className="player_score">{othersScore}</div>
-      <div className="player_edit" onClick={() => setEditOthers(true)}><i className="fa fa-edit" /></div>
+      <div className="player_row-info">Bonusy:</div>
+      <div className="player_row-score">{othersScore}</div>
+      <div className="player_row-edit" onClick={() => setEditOthers(true)}><i className="fa fa-edit" /></div>
     </div>
     <div className="player_row">
-      <div className="player_sum">Suma:</div>
-      <div className="player_sum player_score">{sum}</div>
+      <div className="player_row-info player_sum">Suma:</div>
+      <div className="player_row-score player_sum">{sum}</div>
     </div>
   </div>
   )
 }
 
+// PlayerForm
 const PlayerForm = ({ mode, player, setPlayer, onClick}) => {
-   React.useEffect(() => {
-    ref.current.focus();
-  }, []);
   
-  const ref = React.useRef(null);
   const handleEnter = (e) => {
     if(e.key =="Enter") onClick()
   }
   return (
-    <div className="players_form">
-
+    <>
       <select 
         value={player.color} 
         onKeyUp={handleEnter}
@@ -399,8 +399,6 @@ const PlayerForm = ({ mode, player, setPlayer, onClick}) => {
       </select>
 
       <input 
-        ref={ref} 
-        tabIndex={0} 
         type="text" 
         placeholder="Wpisz imię gracza"
         value={player.name} 
@@ -408,14 +406,14 @@ const PlayerForm = ({ mode, player, setPlayer, onClick}) => {
         onKeyUp={handleEnter}
       />
 
-      <div className="players_buttons">
+      <div className="form_buttons">
         {mode === "add" ? (
-          <button onClick={onClick}>Dodaj gracza</button>
+          <button className="form_button" onClick={onClick}>Dodaj gracza</button>
         ) : (
-         <button onClick={onClick}>Aktualizuj gracza</button>
+          <button className="form_button" onClick={onClick}>Aktualizuj gracza</button>
         )}
       </div>
-  </div>
+  </>
   )
 }
 
@@ -469,17 +467,15 @@ const App = () => {
   return (
     <div className="container">
       <div className="container_app">
-        { modalVisibility && 
-          <Modal info={modalInfo} visibility={setModalVisibility} /> 
-        }
+
+        {/* Header */}
         <div className="header">
           <h1>Ticket to Ride Calculator</h1>
         </div>
-        <div className="players">
 
-          {/* PlayerForm */}
+        {/* Form */}
+        <div className="form">
           {!editingPlayer.id ? (
-          // add mode
           <PlayerForm
             mode="add"
             player={newPlayer}
@@ -487,7 +483,6 @@ const App = () => {
             onClick={handleAddPlayer}
           />
           ) : (
-          // edit mode
           <PlayerForm
             mode="edit"
             player={editingPlayer}
@@ -495,22 +490,28 @@ const App = () => {
             onClick={handleUpdatePlayer}
           />
           )}
+        </div>
 
-          {/* PlayerBox */}
-          {players.length != 0 && (
-          <div className="players_list">
-            {players.map(player => (
-              <PlayerBox 
-                key={player.id} 
-                name={player.name}
-                color={player.color}
-                remove={handleRemovePlayer(player.id)}
-                edit={handleEditPlayer(player.id)}
-              />)
-            )}
-          </div>
+        {/* Main */}
+        {players.length != 0 && (
+        <div className="main">
+          {players.map(player => (
+            <PlayerBox 
+              key={player.id} 
+              name={player.name}
+              color={player.color}
+              remove={handleRemovePlayer(player.id)}
+              edit={handleEditPlayer(player.id)}
+            />)
           )}
         </div>
+        )}
+
+        {/* Modal */}
+        { modalVisibility && 
+          <Modal info={modalInfo} visibility={setModalVisibility} /> 
+        }
+        
       </div>
     </div>
   )
