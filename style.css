@@ -1,0 +1,313 @@
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    font: inherit;
+    font-size: 100%;
+    line-height: 1;
+    vertical-align: baseline;
+    text-decoration: none;
+    list-style: none;
+    box-sizing: border-box;
+    border-spacing: 0;
+}
+
+html {
+    color: #fff;
+    background: #000;
+    font-family: "Poppins", verdana, sans-serif;
+    font-size: 14px;
+}
+@media (min-width: 1000px) {
+    html {
+    font-size: 16px;
+    }
+}
+
+button {
+    flex-grow: 1;
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #666;
+    border-radius: 5px;
+    text-align: center;
+    background: #ccc;
+    color: #000;
+    transition: background-color 0.5s, box-shadow 0.5s;
+}
+button:focus {
+    background: #ace;
+}
+button:hover {
+    background: #ace;
+}
+
+select,
+input {
+    flex-grow: 1;
+    padding: 10px;
+    margin: 10px;
+    border: 1px solid #666;
+    border-radius: 5px;
+    text-align: center;
+    background: #fff;
+    color: #000;
+    transition: background-color 0.5s;
+}
+input:focus {
+    background: #ace;
+}
+input::placeholder {
+    color: #888;
+}
+input:focus::placeholder {
+    visibility: hidden;
+}
+
+/* Font awesome */
+.fa {
+    transition: color .5s
+}
+.fa:hover {
+    color: #aaa;
+}
+
+
+/* Container */
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 10px;
+    }
+    .container_app {
+        background: #222;
+        border-radius: 10px;
+        box-shadow: 0 0 30px #222;
+        min-width: 60%;
+    }
+
+/* Header */
+.header {
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    background: #246;
+    border-radius: 10px 10px 0px 0px;
+    text-align: center;
+    font-size: 28px;
+    padding: 30px 20px;
+}
+
+/* Players */
+.players {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    }
+    .players_form {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        width: 100%;
+        padding: 10px;
+    }
+    @media (max-width: 1000px) {
+        .players_form {
+            grid-template-columns: auto;
+        }
+    }
+    .players_buttons {
+        display: flex;
+    }
+    .players_list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px,1fr));
+        justify-content: center;
+        padding: 0 20px;
+        gap: 0 20px;
+        width: 100%;
+    }
+
+/* Player */
+.player {
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
+    min-width: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+    gap:30px
+    }
+    .player_icons {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        gap: 20px;
+    }
+    .player_name {
+        font-weight: bold;
+    }
+    .player_row {
+        display: grid;
+        grid-template-columns: 60px 60px 20px;
+        text-align: left;
+    }
+    .player_score {
+        text-align: right;
+        padding-right: 20px;
+    }
+    .player_sum {
+        font-weight: bold;
+    }
+
+/* Modal */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    }
+    .modal_content {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: rgba(15, 15, 15, 0.9);
+        backdrop-filter: blur(5px);
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 0px 30px #246;
+        text-align: center;
+        min-width: 390px;
+        min-height: 100px;
+    }
+    .modal_close {
+        position: absolute;
+        font-size: 30px;
+        right: 15px;
+        top: 10px;
+    }
+   
+/* Edit */
+.edit {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    }
+    .edit_content {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        justify-content: center;
+        align-items: center;
+        background-color: rgba(15, 15, 15, 0.8);
+        backdrop-filter: blur(5px);
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        min-width: 390px;
+        max-width: 95vw;
+        min-height: 120px;
+        width: 50%;
+        } 
+        .edit_content-others {
+            max-width: 400px;
+        }
+    .edit_buttons {
+        margin-top: 10px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .edit_button {
+        width: 40px;
+        padding: 10px 15px;
+        flex-grow: 0;
+        flex-shrink: 0;
+    }
+    .edit_close {
+        position: absolute;
+        font-size: 30px;
+        right: 15px;
+        top: 10px;
+    }
+    .edit_reset {
+        position: absolute;
+        font-size: 16px;
+        left: 28px;
+        top: 20px;
+        }
+        .edit_reset i {
+            margin-right: 10px
+        }
+    .edit_title {
+        margin-bottom: 20px;
+        font-weight: bold;
+    }
+    .edit_list {
+        display: flex;
+        justify-content: left;
+        flex-wrap: wrap;
+        min-width: 95%;
+        gap: 20px;
+    }
+    .edit_info {
+        width: 70px;
+        min-height: 50px;
+        display: flex;
+        flex-direction: column;
+        text-align: left;
+        gap: 10px;
+    }
+    .edit_item {
+        width: 25px;
+        height: 50px;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+    }
+    .edit_add {
+        width: 150px;
+    }
+    .edit_red {
+        color: red;
+    }
+    .edit_others {
+        display: grid;
+        grid-template-columns: 230px 90px;
+        grid-template-rows: repeat(3, 50px);
+        justify-content: start;
+        align-items: center;
+        text-align: left;
+        gap: 20px;
+    }
+    .edit_select {
+        width: 50px;
+        padding: 5px;
+    }
+    .edit_checkbox {
+        transform: scale(2);
+        width: 50px;
+    }
