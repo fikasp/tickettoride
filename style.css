@@ -23,14 +23,15 @@ html {
 button {
     min-height: 45px;
     flex-grow: 1;
-    margin: 10px;
+    min-height: 45px;
+    min-width: 45px;
     padding: 10px;
     border: 1px solid #666;
     border-radius: 5px;
     text-align: center;
     background: #ccc;
-    color: #000;
     transition: background-color 0.5s, box-shadow 0.5s;
+    color: #000;
 }
 button:focus {
     background: #ace;
@@ -43,13 +44,12 @@ select,
 input {
     flex-grow: 1;
     padding: 10px;
-    margin: 10px;
     border: 1px solid #666;
     border-radius: 5px;
     text-align: center;
     background: #fff;
-    color: #000;
     transition: background-color 0.5s;
+    color: #000;
 }
 input:focus {
     background: #ace;
@@ -77,14 +77,21 @@ input:focus::placeholder {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
+    min-width: 100vw;
     padding: 10px;
     }
     .container_app {
         background: #222;
         border-radius: 10px;
         box-shadow: 0 0 30px #222;
-        max-width: 95%;
-        min-width: 60%;
+        max-width: calc(100% - 10px);
+        min-width: 300px;
+        width: 60%;
+    }
+    @media (max-width: 1200px) {
+        .container_app {
+            width: calc(100% - 10px);
+        }
     }
 
 /* Header */
@@ -110,37 +117,44 @@ input:focus::placeholder {
     }
     .players_form {
         display: grid;
+<<<<<<< HEAD
         grid-template-columns: repeat(3, 1fr);
         /* width: 100%; */
         padding: 10px;
+=======
+        grid-template-columns: repeat(auto-fit, minmax(190px,1fr));
+        width: 100%;
+        padding: 20px;
+        gap: 20px;
+>>>>>>> gh-pages
     }
-    @media (max-width: 1000px) {
+    @media (max-width: 690px) {
         .players_form {
-            grid-template-columns: auto;
+            grid-template-columns: 100%;
         }
     }
     .players_buttons {
         display: flex;
     }
     .players_list {
+        padding: 0 20px 20px;
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(180px,1fr));
+        grid-template-columns: repeat(auto-fit, minmax(190px,1fr));
         justify-content: center;
-        padding: 0 20px;
-        gap: 0 20px;
+        gap: 20px;
         width: 100%;
     }
 
 /* Player */
 .player {
-    padding: 20px;
+    padding: 30px 20px;
     border-radius: 5px;
     text-align: center;
-    min-width: 100px;
+    min-width: 190px;
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
-    margin-bottom: 20px;
     gap:30px
     }
     .player_icons {
@@ -154,12 +168,15 @@ input:focus::placeholder {
     }
     .player_row {
         display: grid;
-        grid-template-columns: 60px 60px 20px;
+        grid-template-columns: 60px 60px 30px;
         text-align: left;
     }
     .player_score {
         text-align: right;
         padding-right: 20px;
+    }
+    .player_edit {
+        text-align: center;
     }
     .player_sum {
         font-weight: bold;
@@ -190,7 +207,11 @@ input:focus::placeholder {
         box-shadow: 0px 0px 30px #246;
         text-align: center;
         min-width: 300px;
+<<<<<<< HEAD
         max-width: 95vw;
+=======
+        max-width: 90vw;
+>>>>>>> gh-pages
         min-height: 150px;
     }
     .modal_close {
@@ -225,9 +246,12 @@ input:focus::placeholder {
         border-radius: 10px;
         text-align: center;
         min-width: 330px;
+<<<<<<< HEAD
         max-width: 95vw;
+=======
+>>>>>>> gh-pages
         min-height: 120px;
-        width: 50%;
+        width: 40%;
         } 
         .edit_content-others {
             max-width: 400px;
@@ -240,6 +264,7 @@ input:focus::placeholder {
     }
     .edit_button {
         width: 40px;
+        margin: 5px;
         padding: 10px 15px;
         flex-grow: 0;
         flex-shrink: 0;
@@ -264,29 +289,32 @@ input:focus::placeholder {
         font-weight: bold;
     }
     .edit_list {
+        /* background-color: blue; */
         display: flex;
-        justify-content: left;
+        justify-content: center;
         flex-wrap: wrap;
-        min-width: 95%;
-        gap: 20px;
+        width: 100%;
+        gap: 18px;
     }
     .edit_info {
         width: 70px;
-        min-height: 50px;
+        height: 70px;
         display: flex;
         flex-direction: column;
         text-align: left;
         gap: 10px;
     }
     .edit_item {
+        /* background-color: green; */
         width: 25px;
-        height: 50px;
+        height: 70px;
         display: flex;
         flex-direction: column;
         text-align: center;
         gap: 10px;
     }
     .edit_add {
+        margin: 5px;
         width: 150px;
     }
     .edit_red {
