@@ -117,16 +117,10 @@ input:focus::placeholder {
     }
     .players_form {
         display: grid;
-<<<<<<< HEAD
-        grid-template-columns: repeat(3, 1fr);
-        /* width: 100%; */
-        padding: 10px;
-=======
         grid-template-columns: repeat(auto-fit, minmax(190px,1fr));
         width: 100%;
         padding: 20px;
         gap: 20px;
->>>>>>> gh-pages
     }
     @media (max-width: 690px) {
         .players_form {
@@ -207,11 +201,7 @@ input:focus::placeholder {
         box-shadow: 0px 0px 30px #246;
         text-align: center;
         min-width: 300px;
-<<<<<<< HEAD
-        max-width: 95vw;
-=======
-        max-width: 90vw;
->>>>>>> gh-pages
+        max-width: 60vw;
         min-height: 150px;
     }
     .modal_close {
@@ -245,11 +235,7 @@ input:focus::placeholder {
         padding: 20px;
         border-radius: 10px;
         text-align: center;
-        min-width: 330px;
-<<<<<<< HEAD
-        max-width: 95vw;
-=======
->>>>>>> gh-pages
+        min-width: 300px;
         min-height: 120px;
         width: 40%;
         } 
@@ -289,7 +275,6 @@ input:focus::placeholder {
         font-weight: bold;
     }
     .edit_list {
-        /* background-color: blue; */
         display: flex;
         justify-content: center;
         flex-wrap: wrap;
@@ -305,13 +290,17 @@ input:focus::placeholder {
         gap: 10px;
     }
     .edit_item {
-        /* background-color: green; */
         width: 25px;
         height: 70px;
         display: flex;
         flex-direction: column;
         text-align: center;
         gap: 10px;
+    }
+    .edit_adds {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
     }
     .edit_add {
         margin: 5px;
@@ -322,7 +311,7 @@ input:focus::placeholder {
     }
     .edit_others {
         display: grid;
-        grid-template-columns: 220px 50px;
+        grid-template-columns: 200px 50px;
         grid-template-rows: repeat(3, 50px);
         justify-content: start;
         align-items: center;

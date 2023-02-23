@@ -14,6 +14,7 @@ const trainsMap = {
   5 : 10,
   6 : 15,
   7 : 18,
+  8 : 21,
 }
 
 // Modal
@@ -80,13 +81,8 @@ const EditTrains = ({ trains, setTrains, visibility, color }) => {
         onKeyDown={handleKeyDown} 
         style={{boxShadow: `0px 0px 20px ${color}`}}>
           
-        <div className="edit_title">Edytuj listę pociągów</div>
+        <div className="edit_title">Lista pociągów</div>
         <div className="edit_list">
-
-          {/* <div className="edit_info">
-            <div>Długość:</div>
-            <div>Punkty:</div>
-          </div> */}
 
           {trainList.map((train, index) => (
             <div key={index} className="edit_item">
@@ -167,12 +163,8 @@ const EditTickets = ({ tickets, setTickets, visibility, color }) => {
         onKeyDown={handleKeyDown}
         style={{boxShadow: `0px 0px 20px ${color}`}}>
 
-        <div className="edit_title">Edytuj listę biletów</div>
+        <div className="edit_title">Lista biletów</div>
         <div className="edit_list">
-          {/* <div className="edit_info">
-            <div>Punkty:</div>
-            <div></div>
-          </div> */}
 
           {ticketList.map((ticket, index) => (
             <div key={index} className={`edit_item${ticket > 0 ? "" : " edit_red"}`}>
@@ -185,12 +177,14 @@ const EditTickets = ({ tickets, setTickets, visibility, color }) => {
 
         </div>
 
-        <div className="edit_buttons">
+        <div className="edit_adds">
           <input 
             ref={ref} 
             tabIndex={0} 
             className="edit_add"
-            type="text" 
+            type="number"
+            min="-25"
+            max="25" 
             placeholder="Wpisz liczbę"
             value={newTicket} 
             onChange={e => setNewTicket(e.target.value)}
@@ -243,7 +237,7 @@ const EditOthers = ({ others, setOthers, visibility, color }) => {
         onKeyDown={handleKeyDown}
         style={{boxShadow: `0px 0px 20px ${color}`}}>
 
-        <div className="edit_title">Edytuj inne punkty</div>
+        <div className="edit_title">Inne punkty</div>
         <div className="edit_others">
 
           <label htmlFor="stations">Niewykorzystane stacje:</label>
@@ -259,7 +253,7 @@ const EditOthers = ({ others, setOthers, visibility, color }) => {
             <option value="3">3</option>
           </select>
 
-          <label htmlFor="road">Najdłuższa droga kolejowa:</label>
+          <label htmlFor="road">Najdłuższa droga:</label>
           <input 
             id="road" 
             type="checkbox" 
