@@ -224,11 +224,11 @@ input:focus::placeholder {
     justify-content: center;
     }
     .edit_content {
+        gap: 10px;
         position: relative;
         display: flex;
         flex-direction: column;
-        gap: 10px;
-        justify-content: center;
+        justify-content: space-between;
         align-items: center;
         background-color: rgba(15, 15, 15, 0.8);
         backdrop-filter: blur(5px);
@@ -236,11 +236,19 @@ input:focus::placeholder {
         border-radius: 10px;
         text-align: center;
         min-width: 300px;
-        min-height: 120px;
+        min-height: 210px;
         width: 40%;
         } 
         .edit_content-others {
             max-width: 400px;
+        }
+        @media (max-width: 690px) {
+            .edit_content {
+                min-height: 420px;
+            }
+            .edit_content-others {
+                min-height: auto;
+            }
         }
     .edit_buttons {
         margin-top: 10px;
@@ -277,8 +285,10 @@ input:focus::placeholder {
     .edit_list {
         display: flex;
         justify-content: center;
+        align-content: start;
         flex-wrap: wrap;
-        width: 100%;
+        flex-grow: 1;
+        height: 100%;
         gap: 18px;
     }
     .edit_item {
