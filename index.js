@@ -143,6 +143,7 @@ const EditTickets = ({ tickets, setTickets, visibility, color }) => {
     } else {
       setTicketList([...ticketList, Number(newTicket)])
       setNewTicket("")
+      ref.current.focus();
     }
   }
   const handleRemoveTicket = (id) => () => {
