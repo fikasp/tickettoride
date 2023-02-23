@@ -243,11 +243,8 @@ input:focus::placeholder {
             max-width: 400px;
         }
         @media (max-width: 690px) {
-            .edit_content {
+            .edit_content-trains {
                 min-height: 420px;
-            }
-            .edit_content-others {
-                min-height: auto;
             }
         }
     .edit_buttons {

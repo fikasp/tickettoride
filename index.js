@@ -77,7 +77,7 @@ const EditTrains = ({ trains, setTrains, visibility, color }) => {
       <div 
         ref={ref} 
         tabIndex={0} 
-        className="edit_content"
+        className="edit_content edit_content-trains"
         onKeyDown={handleKeyDown} 
         style={{boxShadow: `0px 0px 20px ${color}`}}>
           
