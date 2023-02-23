@@ -281,17 +281,9 @@ input:focus::placeholder {
         width: 100%;
         gap: 18px;
     }
-    .edit_info {
-        width: 70px;
-        height: 70px;
-        display: flex;
-        flex-direction: column;
-        text-align: left;
-        gap: 10px;
-    }
     .edit_item {
         width: 25px;
-        height: 70px;
+        height: 50px;
         display: flex;
         flex-direction: column;
         text-align: center;
@@ -311,7 +303,7 @@ input:focus::placeholder {
     }
     .edit_others {
         display: grid;
-        grid-template-columns: 200px 50px;
+        grid-template-columns: 190px 50px;
         grid-template-rows: repeat(3, 50px);
         justify-content: start;
         align-items: center;

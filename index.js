@@ -87,7 +87,6 @@ const EditTrains = ({ trains, setTrains, visibility, color }) => {
           {trainList.map((train, index) => (
             <div key={index} className="edit_item">
               <div>{train}</div>
-              <div>{trainsMap[train]}</div>
               <div onClick={handleRemoveTrain(index)}>
                 <i className="fa fa-trash" />
               </div>
@@ -121,27 +120,34 @@ const EditTickets = ({ tickets, setTickets, visibility, color }) => {
   }, []);
 
   const ref = React.useRef(null);
-  const modalInfo = "Wprowadź liczbę naturalną z przedziału od -25 do 25!"
+  const modalInfo = "Wprowadź liczbę całkowitą w przedziale od 1 do 25!"
   const [modalVisibility, setModalVisibility] = React.useState(false);
   const [ticketList, setTicketList] = React.useState(tickets)
   const [newTicket, setNewTicket] = React.useState("")
 
   const handleKeyDown = (e) => {
-    if(e.key =="Enter") {
-      handleAddTicket()
-    } else if (e.key == "Escape") {
+    console.log(e.key);
+    if(e.key =="-") {
+      handleAddTicket("-")
+    } 
+    else if(e.key =="+" || e.key =="Enter") {
+      handleAddTicket("+")
+    } 
+    else if (e.key == "Escape") {
       handleClose()
     }
   }
-  const handleAddTicket = (e) => {
-    if(newTicket < -25 || newTicket == 0 || newTicket > 25) {
+  const handleAddTicket = (sign) => {
+    if(newTicket < 1 || newTicket > 25) {
       setModalVisibility(true)
     } else {
-      setTicketList([...ticketList, Number(newTicket)])
+      const ticket = sign == "-" ? Number(newTicket) * (-1) : Number(newTicket)
+      setTicketList([...ticketList, ticket])
       setNewTicket("")
       ref.current.focus();
     }
   }
+
   const handleRemoveTicket = (id) => () => {
     setTicketList(ticketList.filter((ticket,index) => index != id))
   }
@@ -178,19 +184,20 @@ const EditTickets = ({ tickets, setTickets, visibility, color }) => {
         </div>
 
         <div className="edit_adds">
+          <button className="edit_add" onClick={() => handleAddTicket("+")}>Dodaj bilet zrealizowany</button>
           <input 
             ref={ref} 
             tabIndex={0} 
             className="edit_add"
             type="number"
-            min="-25"
+            min="1"
             max="25" 
             placeholder="Wpisz liczbę"
             value={newTicket} 
             onChange={e => setNewTicket(e.target.value)}
             onKeyDown={handleKeyDown}
           />
-          <button className="edit_add" onClick={handleAddTicket}>Dodaj bilet</button>
+          <button className="edit_add" onClick={() => handleAddTicket("-")}>Dodaj bilet niezrealizowany</button>
         </div>
 
         <div className="edit_close" onClick={handleClose}>
@@ -237,7 +244,7 @@ const EditOthers = ({ others, setOthers, visibility, color }) => {
         onKeyDown={handleKeyDown}
         style={{boxShadow: `0px 0px 20px ${color}`}}>
 
-        <div className="edit_title">Inne punkty</div>
+        <div className="edit_title">Lista bonusów</div>
         <div className="edit_others">
 
           <label htmlFor="stations">Niewykorzystane stacje:</label>
@@ -356,7 +363,7 @@ const PlayerBox = ( {name, color, remove, edit} ) => {
       <div className="player_edit" onClick={() => setEditTickets(true)}><i className="fa fa-edit" /></div>
     </div>
     <div className="player_row">
-      <div>Inne:</div>
+      <div>Bonusy:</div>
       <div className="player_score">{othersScore}</div>
       <div className="player_edit" onClick={() => setEditOthers(true)}><i className="fa fa-edit" /></div>
     </div>
