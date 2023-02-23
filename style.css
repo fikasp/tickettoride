@@ -23,7 +23,9 @@ html {
 button {
     flex-grow: 1;
     min-height: 45px;
+    min-width: 45px;
     padding: 10px;
+    margin: 5px;
     border: 1px solid #666;
     border-radius: 5px;
     text-align: center;
@@ -41,6 +43,7 @@ button:hover {
 select,
 input {
     flex-grow: 1;
+    margin: 5px;
     padding: 10px;
     border: 1px solid #666;
     border-radius: 5px;
@@ -81,7 +84,6 @@ input:focus::placeholder {
         background: #222;
         border-radius: 10px;
         box-shadow: 0 0 30px #222;
-        max-width: 95%;
         min-width: 60%;
     }
 
@@ -105,13 +107,11 @@ input:focus::placeholder {
     justify-content: center;
     align-items: center;
     width: 100%;
-    max-width: 95vw;
     }
     .players_form {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         width: 100%;
-        max-width: 95vw;
         padding: 20px;
         gap: 10px;
     }
@@ -134,7 +134,8 @@ input:focus::placeholder {
 
 /* Player */
 .player {
-    padding: 20px;
+    margin: 5px;
+    padding: 30px 20px;
     border-radius: 5px;
     text-align: center;
     min-width: 100px;
@@ -226,7 +227,6 @@ input:focus::placeholder {
         border-radius: 10px;
         text-align: center;
         min-width: 330px;
-        max-width: 95vw;
         min-height: 120px;
         width: 50%;
         } 
@@ -269,7 +269,7 @@ input:focus::placeholder {
         justify-content: left;
         flex-wrap: wrap;
         min-width: 95%;
-        gap: 20px;
+        gap: 19px;
     }
     .edit_info {
         width: 70px;

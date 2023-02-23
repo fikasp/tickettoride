@@ -83,10 +83,10 @@ const EditTrains = ({ trains, setTrains, visibility, color }) => {
         <div className="edit_title">Edytuj listę pociągów</div>
         <div className="edit_list">
 
-          <div className="edit_info">
+          {/* <div className="edit_info">
             <div>Długość:</div>
             <div>Punkty:</div>
-          </div>
+          </div> */}
 
           {trainList.map((train, index) => (
             <div key={index} className="edit_item">
@@ -169,10 +169,10 @@ const EditTickets = ({ tickets, setTickets, visibility, color }) => {
 
         <div className="edit_title">Edytuj listę biletów</div>
         <div className="edit_list">
-          <div className="edit_info">
+          {/* <div className="edit_info">
             <div>Punkty:</div>
             <div></div>
-          </div>
+          </div> */}
 
           {ticketList.map((ticket, index) => (
             <div key={index} className={`edit_item${ticket > 0 ? "" : " edit_red"}`}>
@@ -191,6 +191,8 @@ const EditTickets = ({ tickets, setTickets, visibility, color }) => {
             tabIndex={0} 
             className="edit_add"
             type="number" 
+            min="-25"
+            max="25"
             placeholder="Wpisz liczbę"
             value={newTicket} 
             onChange={e => setNewTicket(e.target.value)}
