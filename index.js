@@ -190,9 +190,7 @@ const EditTickets = ({ tickets, setTickets, visibility, color }) => {
             ref={ref} 
             tabIndex={0} 
             className="edit_add"
-            type="number" 
-            min="-25"
-            max="25"
+            type="text" 
             placeholder="Wpisz liczbę"
             value={newTicket} 
             onChange={e => setNewTicket(e.target.value)}
@@ -356,17 +354,17 @@ const PlayerBox = ( {name, color, remove, edit} ) => {
     <div className="player_row">
       <div>Pociągi:</div>
       <div className="player_score">{trainsScore}</div>
-      <div onClick={() => setEditTrains(true)}><i className="fa fa-edit" /></div>
+      <div className="player_edit" onClick={() => setEditTrains(true)}><i className="fa fa-edit" /></div>
     </div>
     <div className="player_row">
       <div>Bilety:</div>
       <div className="player_score">{ticketsScore}</div>
-      <div onClick={() => setEditTickets(true)}><i className="fa fa-edit" /></div>
+      <div className="player_edit" onClick={() => setEditTickets(true)}><i className="fa fa-edit" /></div>
     </div>
     <div className="player_row">
       <div>Inne:</div>
       <div className="player_score">{othersScore}</div>
-      <div onClick={() => setEditOthers(true)}><i className="fa fa-edit" /></div>
+      <div className="player_edit" onClick={() => setEditOthers(true)}><i className="fa fa-edit" /></div>
     </div>
     <div className="player_row">
       <div className="player_sum">Suma:</div>
@@ -376,7 +374,7 @@ const PlayerBox = ( {name, color, remove, edit} ) => {
   )
 }
 
-const PlayerForm = ({ mode, player, setPlayer, onClick, onCancel}) => {
+const PlayerForm = ({ mode, player, setPlayer, onClick}) => {
    React.useEffect(() => {
     ref.current.focus();
   }, []);
@@ -478,6 +476,7 @@ const App = () => {
         </div>
         <div className="players">
 
+          {/* PlayerForm */}
           {!editingPlayer.id ? (
           // add mode
           <PlayerForm
@@ -495,6 +494,9 @@ const App = () => {
             onClick={handleUpdatePlayer}
           />
           )}
+
+          {/* PlayerBox */}
+          {players.length != 0 && (
           <div className="players_list">
             {players.map(player => (
               <PlayerBox 
@@ -506,6 +508,7 @@ const App = () => {
               />)
             )}
           </div>
+          )}
         </div>
       </div>
     </div>
