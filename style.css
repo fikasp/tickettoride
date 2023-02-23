@@ -78,12 +78,14 @@ input:focus::placeholder {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
+    max-width: 100vw;
     padding: 10px;
     }
     .container_app {
         background: #222;
         border-radius: 10px;
         box-shadow: 0 0 30px #222;
+        max-width: 100vw;
         min-width: 60%;
     }
 
@@ -192,7 +194,7 @@ input:focus::placeholder {
         box-shadow: 0px 0px 30px #246;
         text-align: center;
         min-width: 300px;
-        max-width: 95vw;
+        max-width: 90vw;
         min-height: 150px;
     }
     .modal_close {
