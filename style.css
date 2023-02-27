@@ -89,7 +89,7 @@ input {
 /* Header */
 .header {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     position: relative;
     font-weight: bold;
@@ -98,11 +98,6 @@ input {
     background: #246;
     text-align: center;
     font-size: 28px;
-}
-.header_start {
-    position: absolute;
-    top: 15px;
-    right: 15px;
 }
 
 /* Form */
@@ -123,6 +118,7 @@ input {
     .form_button {
         flex-grow: 1;
         min-height: 45px;
+        border-radius: 10px;
     }
 
 /* Main */
@@ -142,7 +138,7 @@ input {
     position: relative;
     gap: 20px;
     padding: 20px;
-    border-radius: 5px;
+    border-radius: 10px;
     min-width: 190px;
     }
     .player_remove {
@@ -212,11 +208,34 @@ input {
         box-shadow: 0px 0px 30px #246;
         text-align: center;
     }
+    .modal_content-score {
+        padding: 40px;
+    }
     .modal_close {
         position: absolute;
         font-size: 30px;
         right: 15px;
         top: 10px;
+    }
+
+/* Scores */
+.scores {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    }
+    .scores_row {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    border-radius: 5px;
+    background-color: #222;
+    padding: 5px;
+    }
+    .scores_row-first {
+        font-weight: bold;
+    }
+    .scores_row-header {
+        background-color: transparent;
     }
    
 /* Edit */
@@ -371,4 +390,5 @@ input {
         transform: scale(2);
     }
 
+      
 

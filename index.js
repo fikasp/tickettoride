@@ -25,11 +25,11 @@ const settings = {
 }
 
 const initPlayers = [
-  {id: 1, name: "Agnieszka", color: colors.yellow},
-  {id: 2, name: "Michał", color: colors.red},
-  {id: 3, name: "Przemek", color: colors.black},
-  {id: 4, name: "Tata", color: colors.green},
-  {id: 5, name: "Weronika", color: colors.blue},
+  {id: 1, name: "Agnieszka", color: colors.yellow, score: 0},
+  {id: 2, name: "Michał", color: colors.red, score: 0},
+  {id: 3, name: "Przemek", color: colors.black, score: 0},
+  {id: 4, name: "Tata", color: colors.green, score: 0},
+  {id: 5, name: "Weronika", color: colors.blue, score: 0},
 ]
 
 // Modal
@@ -49,6 +49,63 @@ const Modal = ({ info, visibility }) => {
   return (
     <div className="modal" style={{zIndex:1}}>
       <div className="modal_content" onKeyDown={handleKeyDown} tabIndex={0} ref={ref}>{info}
+        <div className="modal_close" onClick={() => visibility(false)}>
+          <i className="fa fa-close"/>
+        </div>
+      </div>
+    </div>
+)}
+
+
+// Scores
+const Scores = ({ players, visibility }) => {
+  React.useEffect(() => {
+    ref.current.focus();
+  }, [])
+
+  const ref = React.useRef(null);
+
+  const handleKeyDown = (e) => {
+    if (e.key == "Escape" || e.key == "Enter") {
+      visibility(false)
+    }
+  }
+
+  const sortedPlayers = [...players].sort((a, b) => b.score - a.score)
+  let lastScore = null
+  let place = 1
+
+  const playersWithPlaces = sortedPlayers.map((player, index) => {
+    if (player.score !== lastScore) {
+      lastScore = player.score
+      place = index + 1
+    }
+    return {...player, place}
+  })
+
+  return (
+    <div className="modal" style={{zIndex:1}}>
+      <div 
+        ref={ref}
+        tabIndex={0} 
+        className="modal_content modal_content-score" 
+        onKeyDown={handleKeyDown} 
+      >
+      <div className="scores">
+        <div className="scores_row scores_row-header">
+          <div className="scores_place">Miejsce</div>
+          <div className="scores_name">Gracz</div>
+          <div className="scores_score">Punkty</div>
+        </div>
+        {playersWithPlaces.map((player) => (
+        <div key={player.id} className={`scores_row${player.place == 1 ? " scores_row-first" : ""}`}>
+          <div className="scores_place">{player.place}</div>
+          <div className="scores_name">{player.name}</div>
+          <div className="scores_score">{player.score}</div>
+        </div>
+        ))}
+      </div>
+
         <div className="modal_close" onClick={() => visibility(false)}>
           <i className="fa fa-close"/>
         </div>
@@ -313,17 +370,28 @@ const EditBonus = ({ others, setOthers, visibility, color }) => {
 }
 
 // PlayerBox
-const PlayerBox = ( {name, color, remove, edit} ) => {
+const PlayerBox = ( {color, edit, name, remove, score, updateScore} ) => {
+  React.useEffect(() => {
+    if (score == 0) {
+      setTrains([])
+      setTickets([])
+      setBonus(initialBonus)
+    }
+  },[score])
+
+  const initialBonus = {
+    stations: 0,
+    globetrotter: false,
+    road: false,
+  }
+
   const [editTrains, setEditTrains] = React.useState(false)
   const [editTickets, setEditTickets] = React.useState(false)
   const [editOthers, setEditOthers] = React.useState(false)
   const [trains, setTrains] = React.useState([])
   const [tickets, setTickets] = React.useState([])
-  const [bonus, setBonus] = React.useState({
-    stations: 0,
-    globetrotter: false,
-    road: false,
-  })
+  const [bonus, setBonus] = React.useState(initialBonus)
+
 
   const trainsScore = (
     trains.length != 0 
@@ -341,8 +409,11 @@ const PlayerBox = ( {name, color, remove, edit} ) => {
   const globetrotterScore = bonus.globetrotter ? settings.globetrotter : 0
   const roadScore = bonus.road ? settings.road : 0
   const bonusScore = stationsScore + globetrotterScore + roadScore
-
   const sum = trainsScore + ticketsScore + bonusScore
+
+  React.useEffect(() => {
+    updateScore(sum)
+  },[sum])
 
   return (
   <div className="player" style={{boxShadow: `0px 0px 20px ${color}`}}>
@@ -417,6 +488,7 @@ const PlayerForm = ({ mode, player, setPlayer, onClick}) => {
     <>
       <select 
         value={player.color} 
+        className="form_button" 
         onKeyUp={handleEnter}
         onChange={e => setPlayer({...player, color: e.target.value})}>
           <option value={colors.black}>Czarny</option>
@@ -430,6 +502,7 @@ const PlayerForm = ({ mode, player, setPlayer, onClick}) => {
         ref={ref} 
         type="text" 
         placeholder="Wpisz imię gracza"
+        className="form_button" 
         value={player.name} 
         onChange={e => setPlayer({...player, name: e.target.value})}
         onKeyUp={handleEnter}
@@ -450,12 +523,20 @@ const PlayerForm = ({ mode, player, setPlayer, onClick}) => {
 const App = () => {
   const [modalInfo, setModalInfo] = React.useState("Error!")
   const [modalVisibility, setModalVisibility] = React.useState(false);
+  const [scoresVisibility, setScoresVisibility] = React.useState(false);
   const [newPlayer, setNewPlayer] = React.useState({name: "", color: "black"})
   const [editingPlayer, setEditingPlayer] = React.useState({});
   const [players, setPlayers] = React.useState([])
 
+  console.log(players);
+
   const handleStart = () => {
     setPlayers(initPlayers)
+    lastID = (initPlayers.length)+1
+  }
+
+  const handleEnd = () => {
+    setScoresVisibility(true)
   }
 
   const handleAddPlayer = () => {
@@ -469,6 +550,7 @@ const App = () => {
     } 
     else {
       newPlayer.id = lastID
+      newPlayer.score = 0
       lastID++
       const sortedPlayers = [...players, newPlayer]
       .sort((a, b) => a.name.localeCompare(b.name));
@@ -503,15 +585,26 @@ const App = () => {
     setPlayers(players.filter(player => player.id != id))
   }
 
+  const handleUpdateScore = (id, score) => {
+    setPlayers(players
+      .map(player => player.id === id ? {...player, score: score} : player)
+    )
+  }
+
   return (
     <div className="container">
       <div className="container_app">
 
         {/* Header */}
         <div className="header">
-          <h1>Ticket to Ride Calculator</h1>
           <div className="header_start" onClick={handleStart}>
-            <i class="fa fa-solid fa-bolt"></i>
+            <i className="fa fa-solid fa-bolt"></i>
+          </div>
+          <div className="header_title">
+            <h1>Ticket to Ride Calculator 1.1</h1>
+          </div>
+          <div className="header_end" onClick={handleEnd}>
+            <i className="fa fa-solid fa-flag"></i>
           </div>
         </div>
 
@@ -542,6 +635,8 @@ const App = () => {
               key={player.id} 
               name={player.name}
               color={player.color}
+              score={player.score}
+              updateScore={(score) => handleUpdateScore(player.id, score)}
               remove={handleRemovePlayer(player.id)}
               edit={handleEditPlayer(player.id)}
             />)
@@ -552,6 +647,11 @@ const App = () => {
         {/* Modal */}
         { modalVisibility && 
           <Modal info={modalInfo} visibility={setModalVisibility} /> 
+        }
+
+        {/* Scores */}
+        { scoresVisibility && 
+          <Scores players={players} visibility={setScoresVisibility} /> 
         }
         
       </div>
