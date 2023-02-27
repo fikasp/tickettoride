@@ -65,6 +65,19 @@ const Scores = ({ players, visibility }) => {
 
   const ref = React.useRef(null);
 
+  const setClassName = (place) => {
+    let className = "scores_row"
+    if (place == 1) {
+      className += " scores_row-first"
+    } else if (place == 2) {
+      className += " scores_row-second"
+    } else if (place == 3) {
+      className += " scores_row-third"
+    } 
+    console.log(className);
+    return className
+  }
+
   const handleKeyDown = (e) => {
     if (e.key == "Escape" || e.key == "Enter") {
       visibility(false)
@@ -98,7 +111,7 @@ const Scores = ({ players, visibility }) => {
           <div className="scores_score">Punkty</div>
         </div>
         {playersWithPlaces.map((player) => (
-        <div key={player.id} className={`scores_row${player.place == 1 ? " scores_row-first" : ""}`}>
+        <div key={player.id} className={setClassName(player.place)}>
           <div className="scores_place">{player.place}</div>
           <div className="scores_name">{player.name}</div>
           <div className="scores_score">{player.score}</div>
@@ -527,6 +540,7 @@ const App = () => {
   const [newPlayer, setNewPlayer] = React.useState({name: "", color: "black"})
   const [editingPlayer, setEditingPlayer] = React.useState({});
   const [players, setPlayers] = React.useState([])
+  const container = React.useRef(null)
 
   console.log(players);
 
@@ -593,7 +607,7 @@ const App = () => {
 
   return (
     <div className="container">
-      <div className="container_app">
+      <div ref={container} className="container_app">
 
         {/* Header */}
         <div className="header">
@@ -655,6 +669,7 @@ const App = () => {
         }
         
       </div>
+      <div className="footer">ARWcode &copy; 2023</div>
     </div>
   )
 }

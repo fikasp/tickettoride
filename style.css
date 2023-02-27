@@ -66,6 +66,7 @@ input {
 
 /* Container */
 .container {
+    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -90,6 +91,7 @@ input {
 .header {
     display: flex;
     justify-content: space-between;
+    gap: 10px;
     align-items: center;
     position: relative;
     font-weight: bold;
@@ -127,6 +129,15 @@ input {
     grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
     padding: 10px 20px 20px;
     gap: 20px;
+}
+
+
+/* Footer */
+.footer {
+    margin: 10px;
+    color: #666;
+    position: absolute;
+    bottom: 0px;
 }
 
 /* Player */
@@ -229,10 +240,20 @@ input {
     grid-template-columns: 1fr 2fr 1fr;
     border-radius: 5px;
     background-color: #222;
-    padding: 5px;
+    color: #888;
+    padding: 8px;
     }
     .scores_row-first {
         font-weight: bold;
+        color:#ec3;
+    }
+    .scores_row-second {
+        font-weight: bold;
+        color:#ccc;
+    }
+    .scores_row-third {
+        font-weight: bold;
+        color:#a64;
     }
     .scores_row-header {
         background-color: transparent;
