@@ -311,6 +311,11 @@ input {
         right: 15px;
         top: 10px;
     }
+    .edit_score {
+        font-size: 24px;
+        font-weight: bold;
+        margin-right: 5px;
+    }
     .edit_reset {
         position: absolute;
         font-size: 16px;

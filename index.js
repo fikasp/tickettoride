@@ -25,11 +25,11 @@ const settings = {
 }
 
 const initPlayers = [
-  {id: 1, name: "Agnieszka", color: colors.yellow, score: 0},
-  {id: 2, name: "Michał", color: colors.red, score: 0},
-  {id: 3, name: "Przemek", color: colors.black, score: 0},
-  {id: 4, name: "Tata", color: colors.green, score: 0},
-  {id: 5, name: "Weronika", color: colors.blue, score: 0},
+  {id: 1, name: "Michał", color: colors.red, score: 0},
+  {id: 2, name: "Tata", color: colors.green, score: 0},
+  {id: 3, name: "Weronika", color: colors.blue, score: 0},
+  {id: 4, name: "Agnieszka", color: colors.yellow, score: 0},
+  {id: 5, name: "Przemek", color: colors.black, score: 0},
 ]
 
 // Modal
@@ -127,7 +127,7 @@ const Scores = ({ players, visibility }) => {
 )}
 
 // EditTrains
-const EditTrains = ({ trains, setTrains, visibility, color }) => {
+const EditTrains = ({ trains, setTrains, setTrainsScore, visibility, color }) => {
   React.useEffect(() => {
     ref.current.focus();
   }, []);
@@ -135,6 +135,14 @@ const EditTrains = ({ trains, setTrains, visibility, color }) => {
   const ref = React.useRef(null);
   const keys = Object.keys(settings.trains)
   const [trainList, setTrainList] = React.useState(trains)
+
+  const trainsScore = (
+    trainList.length != 0 
+    ? trainList
+      .map(train => settings.trains[train])
+      .reduce((train, sum) => sum + train) 
+    : 0
+  )
 
   const handleKeyDown = (e) => {
     if(keys.find(key => key == e.key)) {
@@ -151,6 +159,7 @@ const EditTrains = ({ trains, setTrains, visibility, color }) => {
   }
   const handleClose = () => {
     setTrains(trainList)
+    setTrainsScore(trainsScore)
     visibility(false)
   }
   const handleReset = () => {
@@ -169,6 +178,7 @@ const EditTrains = ({ trains, setTrains, visibility, color }) => {
         <div className="edit_title">Lista pociągów</div>
 
         <div className="edit_close" onClick={handleClose}>
+          <span className="edit_score">{trainsScore}</span>
           <i className="fa fa-check"/>
         </div>
 
@@ -200,7 +210,7 @@ const EditTrains = ({ trains, setTrains, visibility, color }) => {
 }
 
 // EditTickets
-const EditTickets = ({ tickets, setTickets, visibility, color }) => {
+const EditTickets = ({ tickets, setTickets, setTicketsScore, visibility, color }) => {
   React.useEffect(() => {
     ref.current.focus();
   }, []);
@@ -210,6 +220,13 @@ const EditTickets = ({ tickets, setTickets, visibility, color }) => {
   const [modalVisibility, setModalVisibility] = React.useState(false);
   const [ticketList, setTicketList] = React.useState(tickets)
   const [newTicket, setNewTicket] = React.useState("")
+
+  const ticketsScore = (
+    ticketList.length !=0 
+    ? ticketList
+      .reduce((ticket, sum = 0) => sum + ticket ) 
+    : 0
+  )
 
   const handleKeyDown = (e) => {
     if(e.key =="-") {
@@ -244,6 +261,7 @@ const EditTickets = ({ tickets, setTickets, visibility, color }) => {
   }
   const handleClose = () => {
     setTickets(ticketList)
+    setTicketsScore(ticketsScore)
     visibility(false)
   }
   const handleReset = () => {
@@ -263,6 +281,7 @@ const EditTickets = ({ tickets, setTickets, visibility, color }) => {
         <div className="edit_title">Lista biletów</div>
 
         <div className="edit_close" onClick={handleClose}>
+          <span className="edit_score">{ticketsScore}</span>
           <i className="fa fa-check"/>
         </div>
 
@@ -307,15 +326,20 @@ const EditTickets = ({ tickets, setTickets, visibility, color }) => {
 }
 
 // EditBonus
-const EditBonus = ({ others, setOthers, visibility, color }) => {
+const EditBonus = ({ bonus, setBonus, setBonusScore, visibility, color }) => {
   React.useEffect(() => {
     ref.current.focus();
   }, []);
 
   const ref = React.useRef(null);
-  const [stations, setStations] = React.useState(others.stations)
-  const [globetrotter, setGlobetrotter] = React.useState(others.globetrotter)
-  const [road, setRoad] = React.useState(others.road)
+  const [stations, setStations] = React.useState(bonus.stations)
+  const [globetrotter, setGlobetrotter] = React.useState(bonus.globetrotter)
+  const [road, setRoad] = React.useState(bonus.road)
+
+  const stationsScore = stations * settings.station
+  const globetrotterScore = globetrotter ? settings.globetrotter : 0
+  const roadScore = road ? settings.road : 0
+  const bonusScore = stationsScore + globetrotterScore + roadScore
 
   const handleKeyDown = (e) => {
     if (e.key == "Escape" || e.key =="Enter") {
@@ -323,11 +347,12 @@ const EditBonus = ({ others, setOthers, visibility, color }) => {
     }
   }
   const handleClose = () => {
-    setOthers({
+    setBonus({
       stations: stations, 
       globetrotter: globetrotter,
       road: road
     })
+    setBonusScore(bonusScore)
     visibility(false)
   }
 
@@ -340,6 +365,7 @@ const EditBonus = ({ others, setOthers, visibility, color }) => {
 
         <div className="edit_title">Lista bonusów</div>
         <div className="edit_close" onClick={handleClose}>
+          <span className="edit_score">{bonusScore}</span>
           <i className="fa fa-check"/>
         </div>
 
@@ -387,8 +413,11 @@ const PlayerBox = ( {color, edit, name, remove, score, updateScore} ) => {
   React.useEffect(() => {
     if (score == 0) {
       setTrains([])
+      setTrainsScore(0)
       setTickets([])
+      setTicketsScore(0)
       setBonus(initialBonus)
+      setBonusScore(0)
     }
   },[score])
 
@@ -398,30 +427,22 @@ const PlayerBox = ( {color, edit, name, remove, score, updateScore} ) => {
     road: false,
   }
 
-  const [editTrains, setEditTrains] = React.useState(false)
-  const [editTickets, setEditTickets] = React.useState(false)
-  const [editOthers, setEditOthers] = React.useState(false)
+  // trains
   const [trains, setTrains] = React.useState([])
+  const [trainsScore, setTrainsScore] = React.useState(0)
+  const [editTrains, setEditTrains] = React.useState(false)
+
+  // tickets
   const [tickets, setTickets] = React.useState([])
+  const [ticketsScore, setTicketsScore] = React.useState(0)
+  const [editTickets, setEditTickets] = React.useState(false)
+
+  // bonus
   const [bonus, setBonus] = React.useState(initialBonus)
-
-
-  const trainsScore = (
-    trains.length != 0 
-    ? trains
-      .map(train => settings.trains[train])
-      .reduce((train, sum) => sum + train) : 0
-  )
-  const ticketsScore = (
-    tickets.length !=0 
-    ? tickets
-      .reduce((ticket, sum = 0) => sum + ticket ) : 0
-  )
-
-  const stationsScore = bonus.stations * settings.station
-  const globetrotterScore = bonus.globetrotter ? settings.globetrotter : 0
-  const roadScore = bonus.road ? settings.road : 0
-  const bonusScore = stationsScore + globetrotterScore + roadScore
+  const [bonusScore, setBonusScore] = React.useState(0)
+  const [editBonus, setEditBonus] = React.useState(false)
+  
+  // sum
   const sum = trainsScore + ticketsScore + bonusScore
 
   React.useEffect(() => {
@@ -434,6 +455,7 @@ const PlayerBox = ( {color, edit, name, remove, score, updateScore} ) => {
       <EditTrains 
         trains={trains} 
         setTrains={setTrains} 
+        setTrainsScore={setTrainsScore}
         visibility={setEditTrains} 
         color={color}
       /> 
@@ -442,15 +464,17 @@ const PlayerBox = ( {color, edit, name, remove, score, updateScore} ) => {
       <EditTickets 
         tickets={tickets} 
         setTickets={setTickets} 
+        setTicketsScore={setTicketsScore} 
         visibility={setEditTickets} 
         color={color}
       /> 
     }
-    { editOthers && 
+    { editBonus && 
       <EditBonus 
-        others={bonus} 
-        setOthers={setBonus} 
-        visibility={setEditOthers} 
+        bonus={bonus} 
+        setBonus={setBonus} 
+        setBonusScore={setBonusScore} 
+        visibility={setEditBonus} 
         color={color}
       /> 
     }
@@ -473,7 +497,7 @@ const PlayerBox = ( {color, edit, name, remove, score, updateScore} ) => {
     <div className="player_row">
       <div className="player_row-info">Bonusy:</div>
       <div className="player_row-score">{bonusScore}</div>
-      <div className="player_row-edit" onClick={() => setEditOthers(true)}><i className="fa fa-edit" /></div>
+      <div className="player_row-edit" onClick={() => setEditBonus(true)}><i className="fa fa-edit" /></div>
     </div>
     
     <div className="player_row">
@@ -566,10 +590,10 @@ const App = () => {
       newPlayer.id = lastID
       newPlayer.score = 0
       lastID++
-      const sortedPlayers = [...players, newPlayer]
-      .sort((a, b) => a.name.localeCompare(b.name));
+      // const sortedPlayers = [...players, newPlayer]
+      // .sort((a, b) => a.name.localeCompare(b.name));
       setNewPlayer({name: "", color: "black"})
-      setPlayers(sortedPlayers)
+      setPlayers([...players, newPlayer])
     }
   }
 
@@ -590,7 +614,7 @@ const App = () => {
     }
     setPlayers(players
       .map((player) => player.id === editingPlayer.id ? editingPlayer : player)
-      .sort((a, b) => a.name.localeCompare(b.name))
+      // .sort((a, b) => a.name.localeCompare(b.name))
     )
     setEditingPlayer({})
   };
@@ -615,7 +639,7 @@ const App = () => {
             <i className="fa fa-solid fa-bolt"></i>
           </div>
           <div className="header_title">
-            <h1>Ticket to Ride Calculator 1.1</h1>
+            <h1>Ticket to Ride Calculator 1.2</h1>
           </div>
           <div className="header_end" onClick={handleEnd}>
             <i className="fa fa-solid fa-flag"></i>
