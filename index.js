@@ -25,11 +25,11 @@ const settings = {
 }
 
 const initPlayers = [
-  {id: 1, name: "Michał", color: colors.red, score: 0},
-  {id: 2, name: "Tata", color: colors.green, score: 0},
-  {id: 3, name: "Weronika", color: colors.blue, score: 0},
-  {id: 4, name: "Agnieszka", color: colors.yellow, score: 0},
-  {id: 5, name: "Przemek", color: colors.black, score: 0},
+  {id: 1, name: "Black", color: colors.black, score: 0},
+  {id: 2, name: "Blue", color: colors.blue, score: 0},
+  {id: 3, name: "Green", color: colors.green, score: 0},
+  {id: 4, name: "Yellow", color: colors.yellow, score: 0},
+  {id: 5, name: "Red", color: colors.red, score: 0},
 ]
 
 // Modal
