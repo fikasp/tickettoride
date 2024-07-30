@@ -48,14 +48,12 @@ input {
     transition: background-color 0.5s;
     color: #000;
     }
+    select:focus,
     input:focus {
         background: #ace;
     }
     input::placeholder {
         color: #888;
-    }
-    input:focus::placeholder {
-        visibility: hidden;
     }
 
 /* Font awesome */
@@ -68,12 +66,13 @@ input {
 
 /* Container */
 .container {
+    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    min-width: 100vw;
+    min-width: 100%;
     padding: 10px;
     }
     .container_app {
@@ -82,21 +81,19 @@ input {
         background: #222;
         border-radius: 10px;
         box-shadow: 0 0 30px #222;
-        max-width: calc(100% - 10px);
+        width: 100%;
         min-width: 300px;
-        width: 60%;
+        max-width: 1200px;
     }
-    @media (max-width: 1200px) {
-        .container_app {
-            width: calc(100% - 10px);
-        }
-    }
+
 
 /* Header */
 .header {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
+    gap: 10px;
     align-items: center;
+    position: relative;
     font-weight: bold;
     padding: 15px;
     border-radius: 10px 10px 0px 0px;
@@ -123,14 +120,24 @@ input {
     .form_button {
         flex-grow: 1;
         min-height: 45px;
+        border-radius: 10px;
     }
 
 /* Main */
 .main {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(190px,1fr));
-    padding: 0 20px 20px;
+    grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
+    padding: 10px 20px 20px;
     gap: 20px;
+}
+
+
+/* Footer */
+.footer {
+    margin: 10px;
+    color: #666;
+    position: absolute;
+    bottom: 0px;
 }
 
 /* Player */
@@ -139,25 +146,39 @@ input {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 30px;
-    padding: 30px;
-    border-radius: 5px;
+    position: relative;
+    gap: 20px;
+    padding: 20px;
+    border-radius: 10px;
     min-width: 190px;
     }
-    .player_icons {
-        display: flex;
-        justify-content: center;     
-        gap: 20px;
+    .player_remove {
+        position: absolute;
+        left: 20px;
+        top: 20px;
+    }
+    .player_edit {
+        position: absolute;
+        right: 20px;
+        top: 20px;
     }
     .player_name {
         font-weight: bold;
+        font-size: 19px;
+        margin-bottom: 15px;
     }
     .player_row {
+        width: 100%;
+        flex-grow: 1;
         display: grid;
-        grid-template-columns: 60px 50px 40px;
+        grid-template-columns: 1fr 40px 40px;
+        border-radius: 5px;
+        background-color: #333;
+        padding: 10px;
         }
         .player_row-info {
             text-align: left;
+            font-size: 15px;
         }
         .player_row-score {
             text-align: right;
@@ -167,6 +188,7 @@ input {
         }
     .player_sum {
         font-weight: bold;
+        font-size: 18px;
     }
 
 /* Modal */
@@ -177,7 +199,7 @@ input {
     background-color: rgba(0, 0, 0, 0.8);
     position: fixed;
     width: 100%;
-    height: 100%;
+    min-height: 100vh;
     top: 0;
     left: 0;
     }
@@ -197,11 +219,44 @@ input {
         box-shadow: 0px 0px 30px #246;
         text-align: center;
     }
+    .modal_content-score {
+        padding: 40px;
+    }
     .modal_close {
         position: absolute;
         font-size: 30px;
         right: 15px;
         top: 10px;
+    }
+
+/* Scores */
+.scores {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    }
+    .scores_row {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    border-radius: 5px;
+    background-color: #222;
+    color: #888;
+    padding: 8px;
+    }
+    .scores_row-first {
+        font-weight: bold;
+        color:#ec3;
+    }
+    .scores_row-second {
+        font-weight: bold;
+        color:#ccc;
+    }
+    .scores_row-third {
+        font-weight: bold;
+        color:#a64;
+    }
+    .scores_row-header {
+        background-color: transparent;
     }
    
 /* Edit */
@@ -209,10 +264,11 @@ input {
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 1;
     background-color: rgba(0, 0, 0, 0.8);
     position: fixed;
     width: 100%;
-    height: 100%;
+    min-height: 100vh;
     top: 0;
     left: 0;
     }
@@ -230,14 +286,19 @@ input {
         gap: 10px;
         min-height: 210px;
         min-width: 300px;
-        width: 40%;
+        max-width: 800px;
+        width: calc(100% - 100px);
+
         } 
-        .edit_content-others {
+        .edit_content-bonus {
             max-width: 400px;
         }
         @media (max-width: 690px) {
             .edit_content-trains {
                 min-height: 400px;
+            }
+            .edit_content-tickets {
+                min-height: 280px;
             }
         }
     .edit_title {
@@ -249,6 +310,11 @@ input {
         font-size: 30px;
         right: 15px;
         top: 10px;
+    }
+    .edit_score {
+        font-size: 24px;
+        font-weight: bold;
+        margin-right: 5px;
     }
     .edit_reset {
         position: absolute;
@@ -319,9 +385,21 @@ input {
         margin: 5px;
         width: 130px;
         flex-grow: 1;
-    }
+        }
+        .tickets_button-done {
+            background-color: #8bb;
+            }
+            .tickets_button-done:hover {
+                background-color: #add;
+            }
+        .tickets_button-failed {
+            background-color: #e99;
+            }
+            .tickets_button-failed:hover {
+                background-color: #faa;
+            }
 
-/* Others */
+/* Bonus */
 .bonus {
     display: grid;
     grid-template-columns: 190px 50px;
@@ -338,4 +416,5 @@ input {
         transform: scale(2);
     }
 
+      
 
