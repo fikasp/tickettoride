@@ -639,7 +639,7 @@ const App = () => {
             <i className="fa fa-solid fa-bolt"></i>
           </div>
           <div className="header_title">
-            <h1>Ticket to Ride Calculator 1.2</h1>
+            <h1>Ticket to Ride Calculator</h1>
           </div>
           <div className="header_end" onClick={handleEnd}>
             <i className="fa fa-solid fa-flag"></i>
