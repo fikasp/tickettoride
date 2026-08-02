@@ -1,4 +1,21 @@
 let lastID = 1
+const STORAGE_KEY = 'ticket-to-ride-calculator-game'
+
+const initialBonus = {
+	stations: 0,
+	globetrotter: false,
+	road: false,
+}
+
+const getStoredPlayers = () => {
+	try {
+		const storedPlayers = JSON.parse(localStorage.getItem(STORAGE_KEY))
+		return Array.isArray(storedPlayers) ? storedPlayers : []
+	} catch (error) {
+		console.warn('Nie udało się odczytać zapisanej gry.', error)
+		return []
+	}
+}
 
 const colors = {
 	black: 'black',
@@ -52,6 +69,36 @@ const Modal = ({ info, visibility }) => {
 				{info}
 				<div className="modal_close" onClick={() => visibility(false)}>
 					<i className="fa fa-close" />
+				</div>
+			</div>
+		</div>
+	)
+}
+
+const ResetConfirmation = ({ onConfirm, onCancel }) => {
+	React.useEffect(() => {
+		ref.current.focus()
+	}, [])
+
+	const ref = React.useRef(null)
+
+	const handleKeyDown = (e) => {
+		if (e.key === 'Escape') {
+			onCancel()
+		}
+	}
+
+	return (
+		<div className="modal" style={{ zIndex: 2 }}>
+			<div className="modal_content modal_content-reset" onKeyDown={handleKeyDown} tabIndex={0} ref={ref}>
+				<div>Czy na pewno chcesz wyzerować punkty wszystkich graczy?</div>
+				<div className="form_buttons">
+					<button className="form_button" onClick={onCancel}>
+						Anuluj
+					</button>
+					<button className="form_button" onClick={onConfirm}>
+						Resetuj
+					</button>
 				</div>
 			</div>
 		</div>
@@ -396,7 +443,7 @@ const EditBonus = ({ bonus, setBonus, setBonusScore, visibility, color }) => {
 }
 
 // PlayerBox
-const PlayerBox = ({ color, edit, name, remove, score, updateScore }) => {
+const PlayerBox = ({ color, edit, name, remove, score, updateScore, gameData, updateGameData }) => {
 	React.useEffect(() => {
 		if (score == 0) {
 			setTrains([])
@@ -408,25 +455,19 @@ const PlayerBox = ({ color, edit, name, remove, score, updateScore }) => {
 		}
 	}, [score])
 
-	const initialBonus = {
-		stations: 0,
-		globetrotter: false,
-		road: false,
-	}
-
 	// trains
-	const [trains, setTrains] = React.useState([])
-	const [trainsScore, setTrainsScore] = React.useState(0)
+	const [trains, setTrains] = React.useState(gameData.trains || [])
+	const [trainsScore, setTrainsScore] = React.useState(gameData.trainsScore || 0)
 	const [editTrains, setEditTrains] = React.useState(false)
 
 	// tickets
-	const [tickets, setTickets] = React.useState([])
-	const [ticketsScore, setTicketsScore] = React.useState(0)
+	const [tickets, setTickets] = React.useState(gameData.tickets || [])
+	const [ticketsScore, setTicketsScore] = React.useState(gameData.ticketsScore || 0)
 	const [editTickets, setEditTickets] = React.useState(false)
 
 	// bonus
-	const [bonus, setBonus] = React.useState(initialBonus)
-	const [bonusScore, setBonusScore] = React.useState(0)
+	const [bonus, setBonus] = React.useState(gameData.bonus || initialBonus)
+	const [bonusScore, setBonusScore] = React.useState(gameData.bonusScore || 0)
 	const [editBonus, setEditBonus] = React.useState(false)
 
 	// sum
@@ -435,6 +476,10 @@ const PlayerBox = ({ color, edit, name, remove, score, updateScore }) => {
 	React.useEffect(() => {
 		updateScore(sum)
 	}, [sum])
+
+	React.useEffect(() => {
+		updateGameData({ trains, trainsScore, tickets, ticketsScore, bonus, bonusScore })
+	}, [trains, trainsScore, tickets, ticketsScore, bonus, bonusScore])
 
 	return (
 		<div className="player" style={{ boxShadow: `0px 0px 20px ${color}` }}>
@@ -587,17 +632,44 @@ const PlayerForm = ({ mode, player, setPlayer, onClick, players = [] }) => {
 const App = () => {
 	const [modalInfo, setModalInfo] = React.useState('Error!')
 	const [modalVisibility, setModalVisibility] = React.useState(false)
+	const [resetConfirmationVisibility, setResetConfirmationVisibility] = React.useState(false)
 	const [scoresVisibility, setScoresVisibility] = React.useState(false)
+	const [resetVersion, setResetVersion] = React.useState(0)
 	const [newPlayer, setNewPlayer] = React.useState({ name: '', color: 'black' })
 	const [editingPlayer, setEditingPlayer] = React.useState({})
-	const [players, setPlayers] = React.useState([])
+	const [players, setPlayers] = React.useState(getStoredPlayers)
 	const container = React.useRef(null)
 
-	console.log(players)
+	React.useEffect(() => {
+		lastID = players.reduce((highestId, player) => Math.max(highestId, player.id), 0) + 1
+	}, [])
+
+	React.useEffect(() => {
+		try {
+			localStorage.setItem(STORAGE_KEY, JSON.stringify(players))
+		} catch (error) {
+			console.warn('Nie udało się zapisać gry.', error)
+		}
+	}, [players])
 
 	const handleStart = () => {
-		setPlayers(initPlayers)
-		lastID = initPlayers.length + 1
+		setPlayers((currentPlayers) =>
+			currentPlayers.map((player) => ({
+				...player,
+				score: 0,
+				trains: [],
+				trainsScore: 0,
+				tickets: [],
+				ticketsScore: 0,
+				bonus: { ...initialBonus },
+				bonusScore: 0,
+			})),
+		)
+		setResetVersion((version) => version + 1)
+		setEditingPlayer({})
+		setModalVisibility(false)
+		setScoresVisibility(false)
+		setResetConfirmationVisibility(false)
 	}
 
 	const handleEnd = () => {
@@ -612,13 +684,12 @@ const App = () => {
 			setModalInfo('Imię nie może się powtarzać!')
 			setModalVisibility(true)
 		} else {
-			newPlayer.id = lastID
-			newPlayer.score = 0
+			const player = { ...newPlayer, id: lastID, score: 0 }
 			lastID++
 			// const sortedPlayers = [...players, newPlayer]
 			// .sort((a, b) => a.name.localeCompare(b.name));
 			setNewPlayer({ name: '', color: 'black' })
-			setPlayers([...players, newPlayer])
+			setPlayers([...players, player])
 		}
 	}
 
@@ -649,7 +720,15 @@ const App = () => {
 	}
 
 	const handleUpdateScore = (id, score) => {
-		setPlayers(players.map((player) => (player.id === id ? { ...player, score: score } : player)))
+		setPlayers((currentPlayers) =>
+			currentPlayers.map((player) => (player.id === id ? { ...player, score } : player)),
+		)
+	}
+
+	const handleUpdateGameData = (id, gameData) => {
+		setPlayers((currentPlayers) =>
+			currentPlayers.map((player) => (player.id === id ? { ...player, ...gameData } : player)),
+		)
 	}
 
 	return (
@@ -657,7 +736,7 @@ const App = () => {
 			<div ref={container} className="container_app">
 				{/* Header */}
 				<div className="header">
-					<div className="header_start" onClick={handleStart}>
+					<div className="header_start" onClick={() => setResetConfirmationVisibility(true)}>
 						<i className="fa fa-solid fa-bolt"></i>
 					</div>
 					<div className="header_title">
@@ -694,11 +773,13 @@ const App = () => {
 					<div className="main">
 						{players.map((player) => (
 							<PlayerBox
-								key={player.id}
+							key={`${player.id}-${resetVersion}`}
 								name={player.name}
 								color={player.color}
 								score={player.score}
 								updateScore={(score) => handleUpdateScore(player.id, score)}
+								gameData={player}
+								updateGameData={(gameData) => handleUpdateGameData(player.id, gameData)}
 								remove={handleRemovePlayer(player.id)}
 								edit={handleEditPlayer(player.id)}
 							/>
@@ -708,11 +789,14 @@ const App = () => {
 
 				{/* Modal */}
 				{modalVisibility && <Modal info={modalInfo} visibility={setModalVisibility} />}
+				{resetConfirmationVisibility && (
+					<ResetConfirmation onConfirm={handleStart} onCancel={() => setResetConfirmationVisibility(false)} />
+				)}
 
 				{/* Scores */}
 				{scoresVisibility && <Scores players={players} visibility={setScoresVisibility} />}
 			</div>
-			<div className="footer">ARWcode &copy; 2023</div>
+			<div className="footer">ARWcode &copy; 2026</div>
 		</div>
 	)
 }

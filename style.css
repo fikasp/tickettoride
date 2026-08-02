@@ -222,6 +222,13 @@ input {
     .modal_content-score {
         padding: 40px;
     }
+    .modal_content-reset {
+        flex-direction: column;
+        gap: 20px;
+    }
+    .modal_content-reset .form_buttons {
+        gap: 10px;
+    }
     .modal_close {
         position: absolute;
         font-size: 30px;
