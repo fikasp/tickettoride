@@ -15,5 +15,4 @@ Prosty kalkulator punktów do gry **Ticket to Ride**. Pozwala na bieżąco liczy
 1. Dodaj graczy, wybierając dla każdego kolor i nazwę.
 2. Otwieraj edycję biletów, pociągów oraz bonusów przy odpowiednim graczu.
 3. Kliknij ikonę flagi, aby zobaczyć końcową tabelę wyników.
-
-Ikona błyskawicy zachowuje graczy, ale po potwierdzeniu zeruje ich punkty oraz dane dotyczące biletów, pociągów i bonusów.
+4. Kliknij ikonę błyskawicy, aby wyzerować wyniki.
