@@ -1,5 +1,5 @@
 let lastID = 1
-const STORAGE_KEY = 'ticket-to-ride-calculator-game'
+const STORAGE_KEY = 'TRC_settings'
 
 const initialBonus = {
 	stations: 0,
@@ -41,13 +41,6 @@ const settings = {
 	},
 }
 
-const initPlayers = [
-	{ id: 1, name: 'Black', color: colors.black, score: 0 },
-	{ id: 2, name: 'Blue', color: colors.blue, score: 0 },
-	{ id: 3, name: 'Green', color: colors.green, score: 0 },
-	{ id: 4, name: 'Yellow', color: colors.yellow, score: 0 },
-	{ id: 5, name: 'Red', color: colors.red, score: 0 },
-]
 
 // Modal
 const Modal = ({ info, visibility }) => {
@@ -796,7 +789,7 @@ const App = () => {
 				{/* Scores */}
 				{scoresVisibility && <Scores players={players} visibility={setScoresVisibility} />}
 			</div>
-			<div className="footer">ARWcode &copy; 2026</div>
+			<div className="footer">2026 © Przemysław Fikas</div>
 		</div>
 	)
 }
